@@ -1,5 +1,5 @@
 import { styled } from 'styled-components'
-import { cores } from '../../../styles'
+import { cores } from '../../styles'
 
 export const Image = styled.div`
   width: 100%;
@@ -13,7 +13,6 @@ export const Image = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 24px;
   }
 `
 
@@ -21,9 +20,11 @@ export const Paragrafo = styled.p`
   font-size: 32px;
   color: ${cores.branco};
   margin: 0;
+  margin-top: 24px;
 `
 export const Title = styled.h1`
   font-size: 32px;
   color: ${cores.branco};
   margin-top: auto;
+  margin-bottom: 32px;
 `

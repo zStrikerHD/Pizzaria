@@ -1,27 +1,38 @@
 import { useParams } from 'react-router-dom'
-import { cardapio } from '../../data/cardapio'
-import RestauranteItaliano from './restauranteItaliano'
-import RestauranteJapones from './restauranteJapones'
+import { Image, Paragrafo, Title } from './styles'
+import Header from '../../components/Header'
+import ProdutosList from '../../components/ProdutosList'
+import Footer from '../../components/Footer'
+import { useEffect, useState } from 'react'
+import { Restaurante as RestauranteType } from '../Home' // ajuste o caminho conforme necessário
 
 const Restaurante = () => {
   const { id } = useParams()
+  const [restaurante, setRestaurante] = useState<RestauranteType>()
 
-  const restaurante = cardapio.find((item) => item.id === Number(id))
+  useEffect(() => {
+    fetch(`https://api-ebac.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setRestaurante(res))
+  }, [id])
 
   if (!restaurante) {
-    return <h1>Restaurante não encontrado</h1>
+    return <h3>Carregando...</h3>
   }
 
-  switch (restaurante.categoria.toLocaleLowerCase()) {
-    case 'italiana':
-      return <RestauranteItaliano data={restaurante} />
-
-    case 'japonesa':
-      return <RestauranteJapones data={restaurante} />
-
-    default:
-      return <h1>Categoria não suportada</h1>
-  }
+  return (
+    <>
+      <Header />
+      <Image style={{ backgroundImage: `url(${restaurante.capa})` }}>
+        <div className="container">
+          <Paragrafo>{restaurante.tipo}</Paragrafo>
+          <Title>{restaurante.titulo}</Title>
+        </div>
+      </Image>
+      <ProdutosList items={restaurante.cardapio} variant="pizza" />
+      <Footer />
+    </>
+  )
 }
 
 export default Restaurante

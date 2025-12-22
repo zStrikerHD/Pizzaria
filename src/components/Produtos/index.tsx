@@ -6,47 +6,71 @@ import {
   Titulo,
   SaibaMais,
   Capa,
-  AddButton
+  AddButton,
+  DivNotaTitle
 } from './styles'
+
+import star from '../../assets/images/star_favorite.png'
 
 type Props = {
   id: number
+  avaliacao: number
   description: string
   image: string
-  infos?: string[]
+  tipo?: string
   title: string
   variant?: 'restaurante' | 'pizza'
+  preco?: string
+  porcao?: string
 }
 
 const Produtos = ({
   description,
   image,
-  infos,
+  tipo,
   title,
   id,
-  variant = 'restaurante'
-}: Props) => (
-  <Card variant={variant}>
-    <Capa src={image} alt={title} />
+  variant = 'restaurante',
+  avaliacao
+}: Props) => {
+  const getDescricao = (descricao: string) => {
+    if (descricao.length > 95) {
+      return descricao.slice(0, 92) + '...'
+    }
+    return descricao
+  }
 
-    {variant === 'restaurante' && infos && (
-      <Infos>
-        {infos.map((info) => (
-          <Tag key={info}>{info}</Tag>
-        ))}
-      </Infos>
-    )}
+  return (
+    <Card variant={variant}>
+      <Capa src={image} alt={title} variant={variant} />
 
-    <Titulo variant={variant}>{title}</Titulo>
+      {variant === 'restaurante' && tipo && (
+        <Infos>
+          <Tag>{tipo}</Tag>
+        </Infos>
+      )}
 
-    <Descricao variant={variant}>{description}</Descricao>
+      <DivNotaTitle>
+        <li>
+          <Titulo variant={variant}>{title}</Titulo>
+        </li>
+        {variant === 'restaurante' && (
+          <li>
+            <h2>{avaliacao}</h2>
+            <img src={star} alt="Estrela" />
+          </li>
+        )}
+      </DivNotaTitle>
 
-    {variant === 'restaurante' ? (
-      <SaibaMais to={`/restaurante/${id}`}>Saiba Mais</SaibaMais>
-    ) : (
-      <AddButton>Adicionar ao carrinho</AddButton>
-    )}
-  </Card>
-)
+      <Descricao variant={variant}>{getDescricao(description)}</Descricao>
+
+      {variant === 'restaurante' ? (
+        <SaibaMais to={`/restaurante/${id}`}>Saiba mais</SaibaMais>
+      ) : (
+        <AddButton>Mais Detalhes</AddButton>
+      )}
+    </Card>
+  )
+}
 
 export default Produtos

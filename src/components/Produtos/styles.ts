@@ -24,8 +24,8 @@ export const Card = styled.div<VariantProps>`
 
 export const Titulo = styled.h3<VariantProps>`
   font-weight: bold;
-  font-size: 16px;
-  margin: 16px 8px 12px;
+  font-size: 18px;
+  margin: 0;
   color: ${({ variant }) =>
     variant === 'pizza' ? cores.branco : cores.rosaEscuro};
 `
@@ -54,11 +54,12 @@ export const SaibaMais = styled(Link)`
   display: inline-block;
 `
 
-export const Capa = styled.img`
+export const Capa = styled.img<VariantProps>`
   width: 100%;
   height: 217px;
   object-fit: cover;
   display: block;
+  padding: ${({ variant }) => (variant === 'pizza' ? '8px' : '0')};
 `
 
 export const AddButton = styled.button`
@@ -70,4 +71,29 @@ export const AddButton = styled.button`
   padding: 8px;
   font-weight: bold;
   cursor: pointer;
+`
+
+export const DivNotaTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 8px 12px;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: ${cores.rosaEscuro};
+    margin: 0;
+  }
+
+  img {
+    max-width: 20px;
+  }
 `

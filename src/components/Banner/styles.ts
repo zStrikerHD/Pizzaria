@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Image = styled.div`
   font-weight: bold;
   width: 100%;
-  height: 560px;
+  height: 385px;
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -26,10 +26,10 @@ export const Imagem = styled.img`
 
 export const Title = styled.h1`
   text-align: center;
+  margin-bottom: 40px;
+  font-size: 36px;
 
   span {
     display: block;
   }
-
-  margin-bottom: 40px;
 `
