@@ -16,6 +16,7 @@ export const Card = styled.div<VariantProps>`
   border: 1px solid ${cores.rosaEscuro};
   position: relative;
   padding-bottom: 16px;
+  border-radius: ${({ variant }) => (variant === 'pizza' ? '8px' : '0')};
 
   ${TagContainer} {
     margin-right: 8px;
@@ -65,7 +66,7 @@ export const Capa = styled.img<VariantProps>`
 export const AddButton = styled.button`
   width: calc(100% - 16px);
   margin: 0 8px;
-  background: ${cores.rosaClaro};
+  background: ${cores.rosaMedio};
   color: ${cores.rosaEscuro};
   border: none;
   padding: 8px;
