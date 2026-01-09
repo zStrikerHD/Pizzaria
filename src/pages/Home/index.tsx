@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
 import Banner from '../../components/Banner'
 import Footer from '../../components/Footer'
 import ProdutosList from '../../components/ProdutosList'
+import {} from '../../'
+import { useGetFeacturedRestauranteQuery } from '../../services/api'
 
 export type ItemCardapio = {
   foto: string
-  preco: string
+  preco: number
   id: number
   nome: string
   descricao: string
@@ -25,21 +26,19 @@ export type Restaurante = {
 }
 
 const Home = () => {
-  const [restaurantes, setRestaurantes] = useState<Restaurante[]>([])
+  const { data: restaurante } = useGetFeacturedRestauranteQuery()
 
-  useEffect(() => {
-    fetch('https://fake-api-havokk.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setRestaurantes(res))
-  }, [])
+  if (restaurante) {
+    return (
+      <>
+        <Banner />
+        <ProdutosList items={restaurante} variant="restaurante" />
+        <Footer />
+      </>
+    )
+  }
 
-  return (
-    <>
-      <Banner />
-      <ProdutosList items={restaurantes} variant="restaurante" />
-      <Footer />
-    </>
-  )
+  return <h4>Carregando...</h4>
 }
 
 export default Home

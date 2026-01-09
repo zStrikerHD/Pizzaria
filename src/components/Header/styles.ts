@@ -34,4 +34,8 @@ export const Center = styled.div`
 export const Right = styled.div`
   display: flex;
   justify-content: flex-end;
+
+  a {
+    cursor: pointer;
+  }
 `

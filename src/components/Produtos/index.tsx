@@ -13,6 +13,9 @@ import {
 } from './styles'
 
 import star from '../../assets/images/star_favorite.png'
+import { useDispatch } from 'react-redux'
+import { add, open } from '../../store/reduces/cart'
+import { formataPReco } from '../Cart'
 
 type Props = {
   id: number
@@ -22,7 +25,7 @@ type Props = {
   tipo?: string
   title: string
   variant?: 'restaurante' | 'pizza'
-  preco?: string
+  preco?: number
   porcao?: string
 }
 
@@ -38,6 +41,23 @@ const Produtos = ({
   porcao
 }: Props) => {
   const [modalAberto, setModalAberto] = useState(false)
+  const dispatch = useDispatch()
+
+  const addToCart = () => {
+    dispatch(
+      add({
+        id,
+        nome: title,
+        descricao: description,
+        foto: image,
+        preco: preco!,
+        porcao: porcao!
+      })
+    )
+
+    dispatch(open())
+    fecharModal()
+  }
 
   const getDescricao = (descricao: string) => {
     if (descricao.length > 95) {
@@ -94,7 +114,9 @@ const Produtos = ({
           {porcao && <p>Serve: {porcao}</p>}
           {preco && (
             <>
-              <button>Adicionar ao carrinho - {preco}</button>
+              <button onClick={addToCart}>
+                Adicionar ao carrinho - {formataPReco(preco)}
+              </button>
             </>
           )}
         </div>
