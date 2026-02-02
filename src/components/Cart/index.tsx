@@ -2,6 +2,7 @@ import { CartContainer, Overlay, Sidebar, CartItem, Prices } from './styles'
 
 import { AddButton } from '../Produtos/styles'
 import { close, remove } from '../../store/reduces/cart'
+import { open as openCheckout } from '../../store/reduces/checkout'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 import lixeira from '../../assets/images/lixeira-de-reciclagem 1.png'
@@ -22,6 +23,10 @@ const Cart = () => {
     dispatch(close())
   }
 
+  const handleContinue = () => {
+    dispatch(close())
+    dispatch(openCheckout())
+  }
   const getTotalPrice = () => {
     return items.reduce((acumulador, valorAtual) => {
       return (acumulador += valorAtual.preco!)
@@ -57,7 +62,7 @@ const Cart = () => {
           <h3>Valor Total</h3>
           <span>{formataPReco(getTotalPrice())}</span>
         </Prices>
-        <AddButton>Continuar com a entrega</AddButton>
+        <AddButton onClick={handleContinue}>Continuar com a entrega</AddButton>
       </Sidebar>
     </CartContainer>
   )
