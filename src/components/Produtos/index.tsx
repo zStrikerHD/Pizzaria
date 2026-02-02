@@ -43,29 +43,31 @@ const Produtos = ({
   const [modalAberto, setModalAberto] = useState(false)
   const dispatch = useDispatch()
 
+  // Função para adicionar o produto ao carrinho
   const addToCart = () => {
-    dispatch(
-      add({
-        id,
-        nome: title,
-        descricao: description,
-        foto: image,
-        preco: preco!,
-        porcao: porcao!
-      })
-    )
+    if (preco && porcao) {
+      dispatch(
+        add({
+          id,
+          nome: title,
+          descricao: description,
+          foto: image,
+          preco,
+          porcao
+        })
+      )
 
-    dispatch(open())
-    fecharModal()
-  }
-
-  const getDescricao = (descricao: string) => {
-    if (descricao.length > 95) {
-      return descricao.slice(0, 92) + '...'
+      dispatch(open())
+      fecharModal()
     }
-    return descricao
   }
 
+  // Função para limitar a descrição
+  const getDescricao = (descricao: string) => {
+    return descricao.length > 95 ? descricao.slice(0, 92) + '...' : descricao
+  }
+
+  // Funções para abrir e fechar o modal
   const abrirModal = () => {
     setModalAberto(true)
   }
@@ -89,7 +91,7 @@ const Produtos = ({
           <li>
             <Titulo variant={variant}>{title}</Titulo>
           </li>
-          {variant === 'restaurante' && avaliacao && (
+          {variant === 'restaurante' && avaliacao !== undefined && (
             <li>
               <h2>{avaliacao}</h2>
               <img src={star} alt="Estrela" />
@@ -112,12 +114,10 @@ const Produtos = ({
           <h3>{title}</h3>
           <p>{description}</p>
           {porcao && <p>Serve: {porcao}</p>}
-          {preco && (
-            <>
-              <button onClick={addToCart}>
-                Adicionar ao carrinho - {formataPreco(preco)}
-              </button>
-            </>
+          {preco !== undefined && (
+            <button onClick={addToCart}>
+              Adicionar ao carrinho - {formataPreco(preco)}
+            </button>
           )}
         </div>
       </Modal>
