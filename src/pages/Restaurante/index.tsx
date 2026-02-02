@@ -8,7 +8,7 @@ import { cardapio } from '../../data/cardapio'
 
 const Restaurante = () => {
   const { id } = useParams()
-  const { data: restaurante } = useGetFeacturedCardapioQuery(id!)
+  const { data: restaurante } = useGetFeacturedCardapioQuery(id || '')
 
   if (!cardapio) {
     return <h3>Carregando...</h3>
