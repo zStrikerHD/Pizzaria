@@ -1,5 +1,4 @@
 import { CartContainer, Overlay, Sidebar, CartItem, Prices } from './styles'
-
 import { AddButton } from '../Produtos/styles'
 import { close, remove } from '../../store/reduces/cart'
 import { open as openCheckout } from '../../store/reduces/checkout'
@@ -7,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 import lixeira from '../../assets/images/lixeira-de-reciclagem 1.png'
 
-export const formataPReco = (preco = 0) => {
+export const formataPreco = (preco = 0) => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -16,7 +15,6 @@ export const formataPReco = (preco = 0) => {
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
-
   const dispatch = useDispatch()
 
   const closeCart = () => {
@@ -27,6 +25,7 @@ const Cart = () => {
     dispatch(close())
     dispatch(openCheckout())
   }
+
   const getTotalPrice = () => {
     return items.reduce((acumulador, valorAtual) => {
       return (acumulador += valorAtual.preco)
@@ -44,10 +43,14 @@ const Cart = () => {
         <ul>
           {items.map((item) => (
             <CartItem key={item.id}>
-              <img className="produto" src={item.foto} />
+              <img
+                className="produto"
+                src={item.foto || 'path_to_default_image.jpg'} // Fallback para imagem padrão
+                alt={`Imagem do produto: ${item.nome}`}
+              />
               <div className="info">
                 <h3>{item.nome}</h3>
-                <span>{formataPReco(item.preco)}</span>
+                <span>{formataPreco(item.preco)}</span>
               </div>
               <img
                 className="lixeira"
@@ -60,7 +63,7 @@ const Cart = () => {
         </ul>
         <Prices>
           <h3>Valor Total</h3>
-          <span>{formataPReco(getTotalPrice())}</span>
+          <span>{formataPreco(getTotalPrice())}</span>
         </Prices>
         <AddButton onClick={handleContinue}>Continuar com a entrega</AddButton>
       </Sidebar>

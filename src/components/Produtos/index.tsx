@@ -15,7 +15,7 @@ import {
 import star from '../../assets/images/star_favorite.png'
 import { useDispatch } from 'react-redux'
 import { add, open } from '../../store/reduces/cart'
-import { formataPReco } from '../Cart'
+import { formataPreco } from '../Cart'
 
 type Props = {
   id: number
@@ -115,7 +115,7 @@ const Produtos = ({
           {preco && (
             <>
               <button onClick={addToCart}>
-                Adicionar ao carrinho - {formataPReco(preco)}
+                Adicionar ao carrinho - {formataPreco(preco)}
               </button>
             </>
           )}

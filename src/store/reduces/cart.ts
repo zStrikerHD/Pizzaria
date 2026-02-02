@@ -4,11 +4,13 @@ import { ItemCardapio } from '../../pages/Home'
 type CartState = {
   items: ItemCardapio[]
   isOpen: boolean
+  error: string | null // Adicionando um campo de erro para feedback
 }
 
 const initialState: CartState = {
   items: [],
-  isOpen: false
+  isOpen: false,
+  error: null // Inicializando o erro como null
 }
 
 const cartSlice = createSlice({
@@ -16,22 +18,28 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<ItemCardapio>) => {
-      const itemCardaoio = state.items.find(
+      const itemCardapio = state.items.find(
         (item) => item.id === action.payload.id
       )
 
-      if (!itemCardaoio) {
+      if (!itemCardapio) {
         state.items.push(action.payload)
-      } else alert('O item ja esta adicionado')
+        state.error = null // Reseta o erro caso o item seja adicionado com sucesso
+      } else {
+        state.error = 'O item já está adicionado' // Armazena o erro no estado
+      }
     },
     remove: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload)
+      state.error = null
     },
     clear: (state) => {
       state.items = []
+      state.error = null
     },
     open: (state) => {
       state.isOpen = true
+      state.error = null
     },
     close: (state) => {
       state.isOpen = false
